@@ -43,9 +43,12 @@ TEST_FLAGS += -Wall -Wdouble-promotion -Wfloat-conversion -fdata-sections -ffunc
 
 
 all:
-	@tup --quiet --no-environ-check
-	@mkdir -p Test/
+	@tup --quiet
+
+doctest:
+	@mkdir -p Test/obj
 	@g++ Test/testRunner.cpp $(TEST_INCLUDES) $(TEST_FLAGS) -o Test/testRunner.exe
+	@Test/testRunner.exe
 
 flash: all
 	$(OPENOCD) -c init \
