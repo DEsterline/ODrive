@@ -10,8 +10,42 @@ OPENOCD := openocd -f interface/stlink-v2.cfg \
 		-f target/stm32f4x.cfg
 
 
+TEST_INCLUDES = -I.\
+				-IMotorControl\
+				-Icommunication\
+				-Ifibre/cpp/include\
+				-Ifibre/cpp/include/fibre\
+				-IDrivers/DRV8301\
+                -IBoard/v3/Drivers/CMSIS/Include\
+                -IBoard/v3/Drivers/CMSIS/Device/ST/STM32F4xx/Include\
+				-IBoard/v3/Drivers/STM32F4xx_HAL_Driver/Inc\
+                -IBoard/v3/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy\
+				-IBoard/v3/Inc\
+				-IBoard/v3/Middlewares/ST/STM32_USB_Device_Library/Core/Inc\
+                -IBoard/v3/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc\
+                -IBoard/v3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS\
+                -IBoard/v3/Middlewares/Third_Party/FreeRTOS/Source/include\
+                -IBoard/v3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F\
+				-IC:/Tools/doctest/doctest
+
+TEST_FLAGS =
+TEST_FLAGS += '-D__weak="__attribute__((weak))"'
+TEST_FLAGS += '-D__packed="__attribute__((__packed__))"'
+TEST_FLAGS += -DSTM32F405xx
+TEST_FLAGS += -DUSE_HAL_DRIVER
+TEST_FLAGS += -DHW_VERSION_MAJOR=3
+TEST_FLAGS += -DHW_VERSION_MINOR=5
+TEST_FLAGS += -DHW_VERSION_VOLTAGE=24
+TEST_FLAGS += -DUSB_PROTOCOL_NATIVE
+TEST_FLAGS += -DHAVE_DOCTEST
+
+TEST_FLAGS += -Wall -Wdouble-promotion -Wfloat-conversion -fdata-sections -ffunction-sections
+
+
 all:
 	@tup --quiet --no-environ-check
+	@mkdir -p Test/
+	@g++ Test/testRunner.cpp $(TEST_INCLUDES) $(TEST_FLAGS) -o Test/testRunner.exe
 
 flash: all
 	$(OPENOCD) -c init \
