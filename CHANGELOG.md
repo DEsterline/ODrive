@@ -5,6 +5,7 @@ Please add a note of your changes below this heading if you make a Pull Request.
 * `dump_errors()` utility function in odrivetool to dump, decode and optionally clear errors.
 * Second order setpoint input filter.
 * Communication watchdog feature.
+* `encoder.set_linear_count(count)` function.
 
 ### Changed
 * Moved `traptraj.A_per_css` to `controller.inertia`
