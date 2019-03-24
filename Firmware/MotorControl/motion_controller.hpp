@@ -23,7 +23,7 @@ class MotionController {
 
         if (xAxis->trap_.Tf_ > yAxis->trap_.Tf_ && yAxis->trap_.Td_ != 0.0f) {
             auto tDiff = std::abs(xAxis->trap_.Tf_ - yAxis->trap_.Tf_);
-            auto Dmax = yAxis->trap_.config_.decel_limit*((yAxis->trap_.Td_ + tDiff)/yAxis->trap_.Td_);
+            auto Dmax = yAxis->trap_.config_.decel_limit/((yAxis->trap_.Td_ + tDiff)/yAxis->trap_.Td_);
 
             yAxis->trap_.planTrapezoidal(Yf,
                                          yAxis->controller_.pos_setpoint_,
@@ -33,7 +33,7 @@ class MotionController {
                                          Dmax);
         } else if(yAxis->trap_.Tf_ > xAxis->trap_.Tf_ && xAxis->trap_.Tf_ != 0){
             auto tDiff = std::abs(xAxis->trap_.Tf_ - yAxis->trap_.Tf_);
-            auto Dmax = xAxis->trap_.config_.decel_limit*((xAxis->trap_.Td_ + tDiff)/xAxis->trap_.Td_);
+            auto Dmax = xAxis->trap_.config_.decel_limit/((xAxis->trap_.Td_ + tDiff)/xAxis->trap_.Td_);
 
             xAxis->trap_.planTrapezoidal(Xf,
                                          xAxis->controller_.pos_setpoint_,
@@ -41,6 +41,8 @@ class MotionController {
                                          xAxis->trap_.config_.vel_limit,
                                          xAxis->trap_.config_.accel_limit,
                                          Dmax);
+        } else {
+            // Do nothing, the times are already perfect
         }
         xAxis->controller_.traj_start_loop_count_ = xAxis->loop_counter_;
         yAxis->controller_.traj_start_loop_count_ = yAxis->loop_counter_;
