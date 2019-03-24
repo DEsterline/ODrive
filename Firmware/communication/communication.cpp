@@ -171,6 +171,7 @@ static inline auto make_obj_tree() {
         make_protocol_object("axis0", axes[0]->make_protocol_definitions()),
         make_protocol_object("axis1", axes[1]->make_protocol_definitions()),
         make_protocol_object("can", can1_ctx.make_protocol_definitions()),
+        make_protocol_object("motion_controller", motion_controller->make_protocol_definitions()),
         make_protocol_property("test_property", &test_property),
         make_protocol_function("test_function", static_functions, &StaticFunctions::test_function, "delta"),
         make_protocol_function("get_oscilloscope_val", static_functions, &StaticFunctions::get_oscilloscope_val, "index"),

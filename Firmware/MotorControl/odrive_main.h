@@ -89,9 +89,11 @@ extern bool user_config_loaded_;
 
 class Axis;
 class Motor;
+class MotionController;
 
 constexpr size_t AXIS_COUNT = 2;
 extern Axis *axes[AXIS_COUNT];
+extern MotionController* motion_controller;
 
 // if you use the oscilloscope feature you can bump up this value
 #define OSCILLOSCOPE_SIZE 128
@@ -120,6 +122,7 @@ inline ENUMTYPE operator ~ (ENUMTYPE a) { return static_cast<ENUMTYPE>(~static_c
 #include <trapTraj.hpp>
 #include <axis.hpp>
 #include <communication/communication.h>
+#include <motion_controller.hpp>
 
 #endif // __cplusplus
 

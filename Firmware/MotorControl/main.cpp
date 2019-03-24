@@ -20,6 +20,7 @@ bool user_config_loaded_;
 SystemStats_t system_stats_ = { 0 };
 
 Axis *axes[AXIS_COUNT];
+MotionController* motion_controller;
 
 typedef Config<
     BoardConfig_t,
@@ -171,8 +172,9 @@ int odrive_main(void) {
         TrapezoidalTrajectory *trap = new TrapezoidalTrajectory(trap_configs[i]);
         axes[i] = new Axis(hw_configs[i].axis_config, axis_configs[i],
                 *encoder, *sensorless_estimator, *controller, *motor, *trap);
+        
     }
-    
+    motion_controller = new MotionController(axes[0], axes[1]);
     // Start ADC for temperature measurements and user measurements
     start_general_purpose_adc();
 
